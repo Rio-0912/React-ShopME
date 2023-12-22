@@ -23,7 +23,7 @@ const SignInForm = () => {
                 // Save the token securely, e.g., in localStorage
                 localStorage.setItem('authToken', authToken);
                 if (authToken === undefined) {
-                    alert('ye to errro hai ')
+                    alert('Invalid Credentials ')
                     navigate('/')
                     // Assuming you want to remove an item with the key "myKey" from local storage
                     localStorage.removeItem("authToken");

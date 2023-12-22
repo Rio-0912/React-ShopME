@@ -121,10 +121,10 @@ const cartReset= () =>{
 
   return (
     <div>
-      <nav className="navbar bg-dark navbar-dark">
+      <nav className="navbar bg-light navbar-light">
         <div className="container-fluid">
           <Link className="navbar-brand" to={"/shop"}>
-            Navbar
+           <img  src={process.env.PUBLIC_URL + "/logo.png"} alt="" srcset="" style={{maxHeight:'7vh',margin: '0'}} />
           </Link>
           <form className="d-flex" role="search">
             <input

@@ -83,7 +83,7 @@ const Shop = () => {
     filterProducts(searchQuery, "", "");
 
     // Reset cart, cart count, and total amount
-   
+    cartReset();
   };
 
   const handleAddToCart = (product) => {
@@ -113,18 +113,48 @@ const Shop = () => {
     }
   };
 
-const cartReset= () =>{
+  const handleRemoveFromCart = (product) => {
+    const existingItem = cart.find((item) => item.id === product.id);
+
+    if (existingItem) {
+      const updatedCart = cart
+        .map((item) =>
+          item.id === product.id ? { ...item, count: item.count - 1 } : item
+        )
+        .filter((item) => item.count > 0);
+
+      setCart(updatedCart);
+
+      // Calculate cart count and total amount
+      const newCartCount = updatedCart.reduce(
+        (sum, item) => sum + item.count,
+        0
+      );
+      setCartCount(newCartCount);
+
+      const newTotalAmount = updatedCart.reduce(
+        (sum, item) => sum + item.price * item.count,
+        0
+      );
+      setTotalAmount(newTotalAmount);
+    }
+  };
+
+  const cartReset = () => {
     setCart([]);
     setCartCount(0);
     setTotalAmount(0);
-}
+  };
 
   return (
     <div>
+      <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      </head>
       <nav className="navbar bg-light navbar-light">
         <div className="container-fluid">
           <Link className="navbar-brand" to={"/shop"}>
-           <img  src={process.env.PUBLIC_URL + "/logo.png"} alt="" srcset="" style={{maxHeight:'7vh',margin: '0'}} />
+            <img src={process.env.PUBLIC_URL + "/logo.png"} alt="" style={{ maxHeight: '7vh', margin: '0' }} />
           </Link>
           <form className="d-flex" role="search">
             <input
@@ -135,42 +165,41 @@ const cartReset= () =>{
               value={searchQuery}
               onChange={handleSearch}
             />
-            <button className="btn btn-outline-success" type="submit">
-              Search
-            </button>
+            
           </form>
-          
         </div>
       </nav>
 
       <h2 className="my-4">Shop</h2>
       <div
-            className="d-flex align-items-center ms-3"
-            style={{ maxWidth: "25%" }}
-          >
-            <span className="me-2">Price Range:</span>
-            <input
-              type="number"
-              placeholder="Min"
-              value={minPrice}
-              onChange={handleMinPriceChange}
-              className="form-control me-2"
-            />
-            <input
-              type="number"
-              placeholder="Max"
-              value={maxPrice}
-              onChange={handleMaxPriceChange}
-              className="form-control"
-            />
-            <button
-              type="reset"
-              className="btn btn-outline-dark mx-4"
-              onClick={handleReset}
-            >
-              Reset
-            </button>
-          </div>
+        className="d-flex align-items-center ms-3"
+        style={{ maxWidth: "90%" }}
+      >
+        <span className="me-2 fs-5" >Price Range:</span>
+        <input
+          type="number"
+          placeholder="Min"
+          value={minPrice}
+          onChange={handleMinPriceChange}
+          className="form-control"
+          style={{maxWidth: 'fit-content'}}
+        />
+        <input
+          type="number"
+          placeholder="Max"
+          value={maxPrice}
+          onChange={handleMaxPriceChange}
+          className="form-control mx-1"
+          style={{maxWidth: 'fit-content'}}
+        />
+        <button
+          type="reset"
+          className="btn btn-outline-dark mx-2"
+          onClick={handleReset}
+        >
+          Reset
+        </button>
+      </div>
       <div
         className={`container ${
           filteredProducts.length === 0 ? "d-block " : "d-none"
@@ -184,9 +213,9 @@ const cartReset= () =>{
       {loading ? (
         <p>Loading...</p>
       ) : (
-        <div className="row mx-5 my-5">
+        <div className="row mx-3 my-3">
           <div className="col-md-9">
-            <div className="row row-cols-1 row-cols-md-4 g-4">
+            <div className="row row-cols-1 row-cols-md-3 g-3">
               {filteredProducts.map((product) => (
                 <div className="col" key={product.id}>
                   <div className="card h-100">
@@ -194,7 +223,7 @@ const cartReset= () =>{
                       src={product.thumbnail}
                       className="card-img-top p-3"
                       alt=""
-                      style={{ minHeight: "34vh", maxHeight: "35vh" }}
+                      style={{ minHeight: "30vh", maxHeight: "35vh" }}
                     />
                     <div className="card-body">
                       <h3 className="card-title">{product.title}</h3>
@@ -203,19 +232,30 @@ const cartReset= () =>{
                       <p className="card-text">
                         <strong>Price: ${product.price}</strong>
                       </p>
-                      <button
-                        className="btn btn-outline-dark"
-                        onClick={() => handleAddToCart(product)}
-                      >
-                        {cart.find((item) => item.id === product.id)
-                          ? `Added (${
-                              cart.find((item) => item.id === product.id).count
-                            })`
-                          : cartCount >= 10
-                          ? "Max Limit Reached"
-                          : "Add to Cart"}
-                      </button>
-                      
+                      {cart.find((item) => item.id === product.id) ? (
+                        <div className="d-flex align-items-center justify-content-center"  >
+                          <button
+                            className="btn btn-outline-dark me-2"
+                            onClick={() => handleRemoveFromCart(product)}
+                          >
+                            -
+                          </button>
+                          <span>{cart.find((item) => item.id === product.id).count}</span>
+                          <button
+                            className="btn btn-outline-dark ms-2"
+                            onClick={() => handleAddToCart(product)}
+                          >
+                            +
+                          </button>
+                        </div>
+                      ) : (
+                        <button
+                          className="btn btn-outline-dark"
+                          onClick={() => handleAddToCart(product)}
+                        >
+                          Add to Cart
+                        </button>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -227,7 +267,7 @@ const cartReset= () =>{
             style={{
               position: "sticky",
               top: "0",
-              
+              maxWidth: "100%",
             }}
           >
             <div
@@ -235,7 +275,7 @@ const cartReset= () =>{
               style={{
                 position: "sticky",
                 top: "0",
-               
+                maxWidth: "100%",
               }}
             >
               <div className="card-body">
@@ -243,12 +283,12 @@ const cartReset= () =>{
                 <h4>Items: {cartCount}</h4>
                 <h4>Total Amount: ${totalAmount}</h4>
                 <button
-              type="reset"
-              className="btn btn-outline-dark mx-4"
-              onClick={cartReset}
-            >
-              Reset
-            </button>
+                  type="reset"
+                  className="btn btn-outline-dark mx-4"
+                  onClick={cartReset}
+                >
+                  Reset
+                </button>
               </div>
             </div>
           </div>
@@ -257,4 +297,5 @@ const cartReset= () =>{
     </div>
   );
 };
+
 export default Shop;

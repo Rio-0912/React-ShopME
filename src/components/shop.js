@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import "./card.css";
 import { Link } from "react-router-dom";
+import "./card.css";
 
 const Shop = () => {
   const [products, setProducts] = useState([]);
@@ -147,7 +147,7 @@ const Shop = () => {
   };
 
   return (
-    <div>
+    <div >
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
@@ -209,7 +209,36 @@ const Shop = () => {
           <div className="card-header">No Such Products Available</div>
         </div>
       </div>
-
+      <div
+            className="col-md-3 fst-cart"
+            style={{
+              position: "sticky",
+              top: "0",
+              maxWidth: "100%",
+            }}
+          >
+            <div
+              className="card mt-4 fst-cart"
+              style={{
+                position: "sticky",
+                top: "0",
+                maxWidth: "100%",
+              }}
+            >
+              <div className="card-body fst-cart">
+                <h2>Cart</h2>
+                <h4>Items: {cartCount}</h4>
+                <h4>Total Amount: ${totalAmount}</h4>
+                <button
+                  type="reset"
+                  className="btn btn-outline-dark mx-4"
+                  onClick={cartReset}
+                >
+                  Reset
+                </button>
+              </div>
+            </div>
+          </div>
       {loading ? (
         <p>Loading...</p>
       ) : (
@@ -263,7 +292,7 @@ const Shop = () => {
             </div>
           </div>
           <div
-            className="col-md-3"
+            className="col-md-3 lst-cart"
             style={{
               position: "sticky",
               top: "0",
@@ -271,14 +300,14 @@ const Shop = () => {
             }}
           >
             <div
-              className="card mt-4"
+              className="card mt-4 lst-cart"
               style={{
                 position: "sticky",
                 top: "0",
                 maxWidth: "100%",
               }}
             >
-              <div className="card-body">
+              <div className="card-body lst-cart">
                 <h2>Cart</h2>
                 <h4>Items: {cartCount}</h4>
                 <h4>Total Amount: ${totalAmount}</h4>

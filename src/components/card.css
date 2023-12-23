@@ -1,3 +1,22 @@
 *{
     text-align: center;
 }
+
+.fst-cart{
+    display: none;
+}
+.lst-cart{
+    display: block;
+}
+
+
+@media only screen and (max-width: 767px){
+    .lst-cart{
+        display: none;
+    }
+    .fst-cart{
+        display:block;
+        z-index: 5;
+    
+    }
+}

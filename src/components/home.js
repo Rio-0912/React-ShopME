@@ -7,7 +7,7 @@ const LoginPage = () => {
 
     return (
         <div className="Apper">
-            <h2>Welcome Back</h2>
+            <h2>Welcome Back</h2><span style={{color: '#fffaf0', fontSize: '3vh'}}>username :kminchelle   password: 0lelplR</span>
             <div className="container " id="container">
 
                 <SignInForm />

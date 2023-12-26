@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
+import Loader from './Loader'
 import "./card.css";
 
 const Shop = () => {
@@ -200,15 +201,7 @@ const Shop = () => {
           Reset
         </button>
       </div>
-      <div
-        className={`container ${
-          filteredProducts.length === 0 ? "d-block " : "d-none"
-        }`}
-      >
-        <div className="card">
-          <div className="card-header">No Such Products Available</div>
-        </div>
-      </div>
+   
       <div
             className="col-md-3 fst-cart"
             style={{
@@ -240,9 +233,20 @@ const Shop = () => {
             </div>
           </div>
       {loading ? (
-        <p>Loading...</p>
+        <Loader />
       ) : (
         <div className="row mx-3 my-3">
+             <div
+      
+      className={`container ${
+        filteredProducts.length === 0 ? `${searchQuery.length ===0 ? 'd-none': 'd-block'}  ` : "d-none"
+      }`}
+      
+    >
+      <div className="card">
+        <div className="card-header">No Such Products Available</div>
+      </div>
+    </div>
           <div className="col-md-9">
             <div className="row row-cols-1 row-cols-md-3 g-3">
               {filteredProducts.map((product) => (
